@@ -17,7 +17,6 @@ if (!$id) {
     exit();
 }
 
-// Ielādē esošos datus
 $stmt = $pdo->prepare("SELECT students.id, students.first_name, students.last_name, users.username, users.id as user_id 
                        FROM students 
                        JOIN users ON students.user_id = users.id 
@@ -36,21 +35,21 @@ if (!$student) {
     if (!$firstName || !$lastName || !$username) {
         $error = "Vārds, uzvārds un lietotājvārds ir obligāti!";
     } else {
-        // Pārbauda, vai lietotājvārds jau eksistē (izņemot šo lietotāju)
+   
         $checkStmt = $pdo->prepare("SELECT id FROM users WHERE username = ? AND id != ?");
         $checkStmt->execute([$username, $student['user_id']]);
         if ($checkStmt->fetch()) {
             $error = "Lietotājvārds jau tiek izmantots!";
         } else {
-            // Atjaunina studentu
+
             $pdo->prepare("UPDATE students SET first_name = ?, last_name = ? WHERE id = ?")
                 ->execute([$firstName, $lastName, $id]);
 
-            // Atjaunina username
+
             $pdo->prepare("UPDATE users SET username = ? WHERE id = ?")
                 ->execute([$username, $student['user_id']]);
 
-            // Ja ievadīta jauna parole, to hash un saglabā
+  
             if (!empty($newPassword)) {
                 $hashedPass = password_hash($newPassword, PASSWORD_DEFAULT);
                 $pdo->prepare("UPDATE users SET password = ? WHERE id = ?")

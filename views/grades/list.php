@@ -11,13 +11,13 @@ $pdo = Database::connect();
 $role = $_SESSION['role'];
 $userId = $_SESSION['user_id'];
 
-// Skolēna ID filtrēšanai, ja skolēns ir loma "student"
+
 $studentFilter = '';
 $params = [];
 
-// Ja loma ir student, rādam tikai viņa atzīmes
+
 if ($role === 'student') {
-    // Atrodam skolēna id no students tabulas, izmantojot user_id
+
     $stmt = $pdo->prepare("SELECT id FROM students WHERE user_id = ?");
     $stmt->execute([$userId]);
     $student = $stmt->fetch();
@@ -27,7 +27,7 @@ if ($role === 'student') {
     $studentFilter = "WHERE grades.student_id = ?";
     $params[] = $student['id'];
 } else {
-    // Ja teacher, varam arī filtrēt pēc skolēna vai priekšmeta GET parametriem (pēc vajadzības)
+
     $student_id = $_GET['student_id'] ?? '';
     $subject_id = $_GET['subject_id'] ?? '';
 
@@ -46,7 +46,6 @@ if ($role === 'student') {
     }
 }
 
-// SQL vaicājums ar pareizo kolonnu grade_date
 $sql = "SELECT grades.id, students.first_name, students.last_name, subjects.subject_name, grades.grade, grades.grade_date
         FROM grades
         JOIN students ON grades.student_id = students.id
@@ -58,7 +57,6 @@ $stmt = $pdo->prepare($sql);
 $stmt->execute($params);
 $grades = $stmt->fetchAll();
 
-// Iegūstam skolēnu un priekšmetu sarakstu filtrēšanai (teacher view)
 if ($role === 'teacher') {
     $students = $pdo->query("SELECT id, first_name, last_name FROM students ORDER BY first_name, last_name")->fetchAll();
     $subjects = $pdo->query("SELECT id, subject_name FROM subjects ORDER BY subject_name")->fetchAll();

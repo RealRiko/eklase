@@ -2,7 +2,6 @@
 session_start();
 require_once "models/Database.php";
 
-// Tikai skolotājs drīkst reģistrēt jaunus lietotājus
 if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'teacher') {
     header("Location: index.php");
     exit();
@@ -18,7 +17,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $firstName = trim($_POST['first_name'] ?? '');
     $lastName = trim($_POST['last_name'] ?? '');
 
-    // Validācija
     if (!$username || !$password || !$role) {
         $error = "Lietotājvārds, parole un loma ir obligāti!";
     } elseif ($role === 'student' && (!$firstName || !$lastName)) {
@@ -29,7 +27,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         try {
             $pdo = Database::connect();
 
-            // Pārbauda vai username aizņemts
             $stmt = $pdo->prepare("SELECT id FROM users WHERE username = ?");
             $stmt->execute([$username]);
 

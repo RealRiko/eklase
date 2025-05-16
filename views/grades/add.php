@@ -11,7 +11,6 @@ $pdo = Database::connect();
 $error = '';
 $success = '';
 
-// Iegūstam skolēnus un priekšmetus izvēlnēm
 $students = $pdo->query("SELECT id, first_name, last_name FROM students ORDER BY first_name, last_name")->fetchAll();
 $subjects = $pdo->query("SELECT id, subject_name FROM subjects ORDER BY subject_name")->fetchAll();
 
@@ -20,13 +19,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $subject_id = $_POST['subject_id'] ?? '';
     $grade = $_POST['grade'] ?? '';
 
-    // Validācija
+
     if (!$student_id || !$subject_id || !$grade) {
         $error = "Visi lauki ir obligāti!";
     } elseif (!is_numeric($grade) || $grade < 1 || $grade > 10) {
         $error = "Atzīmei jābūt skaitlim no 1 līdz 10.";
     } else {
-        // Ievieto datubāzē
+
         $stmt = $pdo->prepare("INSERT INTO grades (student_id, subject_id, grade, grade_date) VALUES (?, ?, ?, NOW())");
         if ($stmt->execute([$student_id, $subject_id, $grade])) {
             $success = "Atzīme veiksmīgi pievienota.";

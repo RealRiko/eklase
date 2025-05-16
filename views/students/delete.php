@@ -10,7 +10,7 @@ $pdo = Database::connect();
 $id = $_GET['id'] ?? null;
 
 if ($id) {
-    // Atrodam studentu un saistīto user_id
+
     $stmt = $pdo->prepare("SELECT user_id FROM students WHERE id = ?");
     $stmt->execute([$id]);
     $student = $stmt->fetch(PDO::FETCH_ASSOC);

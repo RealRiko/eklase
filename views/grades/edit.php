@@ -17,7 +17,7 @@ if (!$id) {
 $error = '';
 $success = '';
 
-// Atrodam esošo atzīmi
+
 $stmt = $pdo->prepare("SELECT * FROM grades WHERE id = ?");
 $stmt->execute([$id]);
 $gradeData = $stmt->fetch();
