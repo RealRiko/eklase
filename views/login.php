@@ -1,26 +1,26 @@
 <!DOCTYPE html>
-<html>
+<html lang="lv">
 <head>
+    <meta charset="UTF-8">
     <title>Pieslēgties</title>
     <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
-    <h2>Pieslēgšanās</h2>
-    <?php if (isset($_GET['error'])): ?>
-        <p style="color:red;">Nepareizs lietotājvārds vai parole!</p>
-    <?php endif; ?>
+    <div class="login-container">
+        <h2>Pieslēgšanās</h2>
+        <?php if (isset($_GET['error'])): ?>
+            <p class="error">Nepareizs lietotājvārds vai parole!</p>
+        <?php endif; ?>
 
-    <form method="POST" action="login.php">
-        <label>Lietotājvārds:</label>
-        <input type="text" name="username" required><br>
+        <form method="POST" action="login.php">
+            <label for="username">Lietotājvārds:</label>
+            <input type="text" id="username" name="username" required>
 
-        <label>Parole:</label>
-        <input type="password" name="password" required><br>
+            <label for="password">Parole:</label>
+            <input type="password" id="password" name="password" required>
 
-        <input type="submit" value="Ieiet">
-
-
-    </form>
+            <input type="submit" value="Ieiet">
+        </form>
+    </div>
 </body>
 </html>
-

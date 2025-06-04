@@ -5,6 +5,8 @@ if (!isset($success)) $success = '';
 <!DOCTYPE html>
 <html lang="lv">
 <head>
+    <link rel="stylesheet" href="../../css/register.css">
+
     <meta charset="UTF-8">
     <title>Lietotāja reģistrācija</title>
     <script>

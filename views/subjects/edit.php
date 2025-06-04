@@ -36,7 +36,10 @@ if (!$subject) {
 ?>
 <!DOCTYPE html>
 <html>
+<link rel="stylesheet" href="../../css/subjects.css">
+
 <head><title>Rediģēt priekšmetu</title></head>
+
 <body>
 <h2>Rediģēt priekšmetu</h2>
 <a href="list.php">Atpakaļ</a><br><br>

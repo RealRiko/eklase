@@ -67,7 +67,8 @@ if ($role === 'teacher') {
 <html>
 <head>
     <title>Manage Grades</title>
-    <link rel="stylesheet" href="../../styles.css">
+  <link rel="stylesheet" href="../../css/grades.css">
+
 </head>
 <body>
 <h2>Atzīmes</h2>

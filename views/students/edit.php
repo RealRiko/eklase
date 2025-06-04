@@ -67,6 +67,7 @@ if (!$student) {
 
 <!DOCTYPE html>
 <html>
+<link rel="stylesheet" href="../../css/students.css">
 <head><title>Labot skolēnu</title></head>
 <body>
 <h2>Labot skolēnu</h2>

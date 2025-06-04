@@ -12,24 +12,41 @@ $students = $pdo->query("SELECT students.id, first_name, last_name, username FRO
 ?>
 
 <!DOCTYPE html>
-<html>
-<head><title>Skolēnu saraksts</title></head>
+<html lang="lv">
+<head>
+    <meta charset="UTF-8">
+    <title>Skolēnu saraksts</title>
+<link rel="stylesheet" href="../../css/students.css">
+
+</head>
 <body>
-<h2>Skolēnu saraksts</h2>
-<a href="../../dashboard.php">Atpakaļ</a>
-<table border="1">
-    <tr><th>Vārds</th><th>Uzvārds</th><th>Lietotājvārds</th><th>Darbības</th></tr>
-    <?php foreach ($students as $student): ?>
-        <tr>
-            <td><?= htmlspecialchars($student['first_name']) ?></td>
-            <td><?= htmlspecialchars($student['last_name']) ?></td>
-            <td><?= htmlspecialchars($student['username']) ?></td>
-            <td>
-                <a href="edit.php?id=<?= $student['id'] ?>">Labot</a> |
-                <a href="delete.php?id=<?= $student['id'] ?>" onclick="return confirm('Dzēst skolēnu?')">Dzēst</a>
-            </td>
-        </tr>
-    <?php endforeach; ?>
-</table>
+    <div class="container">
+        <h2>Skolēnu saraksts</h2>
+        <a class="back-link" href="../../dashboard.php">Atpakaļ</a>
+        
+        <table>
+            <thead>
+                <tr>
+                    <th>Vārds</th>
+                    <th>Uzvārds</th>
+                    <th>Lietotājvārds</th>
+                    <th>Darbības</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($students as $student): ?>
+                    <tr>
+                        <td><?= htmlspecialchars($student['first_name']) ?></td>
+                        <td><?= htmlspecialchars($student['last_name']) ?></td>
+                        <td><?= htmlspecialchars($student['username']) ?></td>
+                        <td>
+                            <a class="edit" href="edit.php?id=<?= $student['id'] ?>">Labot</a> |
+                            <a class="delete" href="delete.php?id=<?= $student['id'] ?>" onclick="return confirm('Dzēst skolēnu?')">Dzēst</a>
+                        </td>
+                    </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+    </div>
 </body>
 </html>

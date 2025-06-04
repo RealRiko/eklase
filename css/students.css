@@ -1,0 +1,93 @@
+/* Import base styles if you're using modular CSS structure */
+@import url("base.css");
+
+/* Page Header */
+h2 {
+    margin-bottom: 20px;
+    color: #2c3e50;
+}
+
+/* Navigation / Links */
+a {
+    text-decoration: none;
+    color: #3498db;
+    margin-right: 15px;
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+a:hover {
+    color: #1d6fa5;
+}
+
+/* Success and error messages */
+p {
+    margin: 10px 0;
+}
+p[style*="color:red"] {
+    color: #e74c3c;
+    font-weight: bold;
+}
+p[style*="color:green"] {
+    color: #27ae60;
+    font-weight: bold;
+}
+
+/* Table Styles */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+    background-color: #fff;
+    border-radius: 6px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+th, td {
+    padding: 12px 15px;
+    text-align: left;
+}
+th {
+    background-color: #ecf0f1;
+    color: #2c3e50;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+tr:hover {
+    background-color: #f1f1f1;
+}
+
+/* Form styles (edit page) */
+form {
+    max-width: 400px;
+    margin-top: 20px;
+}
+label {
+    display: block;
+    margin: 12px 0 4px;
+    color: #34495e;
+}
+input[type="text"],
+input[type="password"] {
+    width: 100%;
+    padding: 8px 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+button {
+    margin-top: 15px;
+    padding: 10px 18px;
+    background-color: #3498db;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+button:hover {
+    background-color: #2980b9;
+}

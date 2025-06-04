@@ -46,6 +46,8 @@ if (!$gradeData) {
 <!DOCTYPE html>
 <html>
 <head><title>Rediģēt atzīmi</title></head>
+<link rel="stylesheet" href="../../css/grades.css">
+
 <body>
 <h2>Rediģēt atzīmi</h2>
 <a href="list.php">Atpakaļ</a><br><br>

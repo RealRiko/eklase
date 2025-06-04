@@ -1,5 +1,6 @@
 <?php
 session_start();
+
 if (!isset($_SESSION['user_id'])) {
     header("Location: ../index.php");
     exit();
@@ -9,6 +10,7 @@ require_once "../models/Database.php";
 
 $error = '';
 $success = '';
+$user = null;
 
 $pdo = Database::connect();
 
@@ -22,11 +24,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $allowedTypes = ['image/jpeg', 'image/png', 'image/gif'];
         if (!in_array($fileType, $allowedTypes)) {
             $error = "Atļauti tikai JPG, PNG un GIF attēli.";
-        } elseif ($fileSize > 2 * 1024 * 1024) { // max 2MB
+        } elseif ($fileSize > 2 * 1024 * 1024) {
             $error = "Fails ir pārāk liels. Maksimālais izmērs: 2MB.";
         } else {
             $ext = pathinfo($fileName, PATHINFO_EXTENSION);
-            $newFileName = 'avatar_'.$_SESSION['user_id'].'_'.time().'.'.$ext;
+            $newFileName = 'avatar_' . $_SESSION['user_id'] . '_' . time() . '.' . $ext;
             $uploadDir = __DIR__ . '/../uploads/';
 
             if (!is_dir($uploadDir)) {
@@ -35,7 +37,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             $destPath = $uploadDir . $newFileName;
             if (move_uploaded_file($fileTmpPath, $destPath)) {
-                // Saglabā ceļu DB (relatīvi no root)
                 $avatarPath = 'uploads/' . $newFileName;
 
                 $stmt = $pdo->prepare("UPDATE users SET avatar = ? WHERE id = ?");
@@ -53,40 +54,46 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-// Iegūstam lietotāja info, lai rādītu esošo avataru
+// Get current user avatar
 $stmt = $pdo->prepare("SELECT avatar FROM users WHERE id = ?");
 $stmt->execute([$_SESSION['user_id']]);
 $user = $stmt->fetch();
-
 ?>
-
 <!DOCTYPE html>
-<html>
+<html lang="lv">
 <head>
+
+    <meta charset="UTF-8">
     <title>Augšupielādēt avataru</title>
-    <link rel="stylesheet" href="../styles.css">
+<link rel="stylesheet" href="../css/upload.css">
+
 </head>
 <body>
-<h2>Augšupielādēt profila bildi</h2>
-<a href="../dashboard.php">Atpakaļ</a><br><br>
+    <div class="upload-container">
+        <h2>Augšupielādēt profila bildi</h2>
+        <a class="back-link" href="../dashboard.php">← Atpakaļ uz galveno</a>
 
-<?php if ($error): ?>
-    <p style="color:red;"><?= htmlspecialchars($error) ?></p>
-<?php endif; ?>
+        <?php if ($error): ?>
+            <p class="error-message"><?= htmlspecialchars($error) ?></p>
+        <?php endif; ?>
 
-<?php if ($success): ?>
-    <p style="color:green;"><?= htmlspecialchars($success) ?></p>
-<?php endif; ?>
+        <?php if ($success): ?>
+            <p class="success-message"><?= htmlspecialchars($success) ?></p>
+        <?php endif; ?>
 
-<?php if ($user && $user['avatar']): ?>
-    <p>Esošā profila bilde:</p>
-    <img src="../<?= htmlspecialchars($user['avatar']) ?>" alt="Avatar" style="max-width:150px; max-height:150px; border-radius:50%;"><br><br>
-<?php endif; ?>
+        <?php if ($user && $user['avatar']): ?>
+            <div class="avatar-preview">
+                <p>Esošā profila bilde:</p>
+                <img src="../<?= htmlspecialchars($user['avatar']) ?>" alt="Avatar">
+            </div>
+        <?php endif; ?>
 
-<form method="POST" enctype="multipart/form-data">
-    <label>Izvēlies attēlu (JPG, PNG, GIF, max 2MB):</label><br>
-    <input type="file" name="avatar" accept="image/*" required><br><br>
-    <button type="submit">Augšupielādēt</button>
-</form>
+        <form method="POST" enctype="multipart/form-data" class="upload-form">
+            <label for="avatar">Izvēlies attēlu (JPG, PNG, GIF, max 2MB):</label>
+            <input type="file" name="avatar" id="avatar" accept="image/*" required>
+            <button type="submit">Augšupielādēt</button>
+        </form>
+    </div>
 </body>
 </html>
+
